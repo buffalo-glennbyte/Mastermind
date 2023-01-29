@@ -2,9 +2,9 @@ package mastermind.io;
 
 import java.util.Scanner;
 
-public class IO {
+public class UserIO {
 	
-	public String UserInput() {
+	public static String UserInput() {
 		boolean loop = true;
 		Scanner input = new Scanner(System.in);
 		String givenAnswer = "";
@@ -28,7 +28,7 @@ public class IO {
 		
 	}
 	
-	protected void quitGame() { //Quits the game.
+	private static void quitGame() { //Quits the game.
 		System.out.println("\nWas leuk om met je/jullie te spelen!");
 		System.exit(0);
 	}
