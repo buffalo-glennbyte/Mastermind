@@ -1,9 +1,11 @@
 package mastermind.io;
 
+import mastermind.ColorPicker;
+
 import java.util.Scanner;
 
-public class UserIO {
-	
+public class UserIO implements ColorPicker {
+
 	public static String UserInput() {
 		boolean loop = true;
 		Scanner input = new Scanner(System.in);
@@ -14,7 +16,7 @@ public class UserIO {
 				givenAnswer = answer;
 				loop = false;
 			} catch (Exception e) {
-				System.out.println("Daar ging wat mis");
+				System.out.println(ANSI_RED + "Daar ging wat mis");
 			}
 		} while (loop);
 		if (givenAnswer.toLowerCase().equals("q")) { //Calls the method to quit the game
@@ -29,7 +31,7 @@ public class UserIO {
 	}
 	
 	private static void quitGame() { //Quits the game.
-		System.out.println("\nWas leuk om met je/jullie te spelen!");
+		System.out.println(ANSI_GREEN + "\nWas leuk om met je/jullie te spelen!");
 		System.exit(0);
 	}
 }
