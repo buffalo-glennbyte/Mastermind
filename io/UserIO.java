@@ -17,19 +17,11 @@ public class UserIO {
 				System.out.println("Daar ging wat mis");
 			}
 		} while (loop);
-		if (givenAnswer.toLowerCase().equals("q")) { //Calls the method to quit the game
-			quitGame();
-		}
 		return givenAnswer;
 	}
 	
 	String UserInput(String question) {
 		return question;
 		
-	}
-	
-	private static void quitGame() { //Quits the game.
-		System.out.println("\nWas leuk om met je/jullie te spelen!");
-		System.exit(0);
 	}
 }
