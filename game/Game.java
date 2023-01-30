@@ -26,7 +26,6 @@ public class Game {
 			case "g":
 				System.out.println("\nEr word een nieuwe code gegenereerd:");
 				generateCode();
-				printCode();
 				break;
 			default:
 				checkCode(answer);
@@ -36,9 +35,10 @@ public class Game {
 	private void checkCode(String answer) { 
 		//Controleert voor nu of de eerste character van het gegeven antwoord overeenkomt met de eerste character van de code.
 		if(answer.charAt(0) == code[0]) {
-			System.out.println("Goed gedaan.");
+			System.out.println("\nGoed gedaan.");
+			gameLoop = false;
 		} else {
-			System.out.println("Helaas.");
+			System.out.println("\nHelaas.");
 		}
 	}
 	
