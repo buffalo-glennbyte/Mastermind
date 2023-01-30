@@ -1,12 +1,13 @@
 package mastermind.game;
 
+import mastermind.ColorPicker;
 import mastermind.io.UserIO;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-public class Game {
+public class Game implements ColorPicker {
 	final char[] colours = {'a','b','c','d','e','f'};
 	private boolean gameLoop = true;
 	private char[] code = {'d','a','e','c'};
@@ -18,7 +19,7 @@ public class Game {
 		System.out.println("De code kan bestaan uit de volgende letters:");
 		System.out.println(Arrays.toString(colours));
 		while (gameLoop) {
-			System.out.println("Voer je antwoord in: (Q om te stoppen / G om een nieuw code te genereren.)");
+			System.out.println(ANSI_PURPLE + "Voer je antwoord in: (Q om te stoppen / G om een nieuw code te genereren.)");
 			String answer = UserIO.UserInput().toLowerCase();
 			switch(answer) {
 			case "q":
@@ -42,11 +43,11 @@ public class Game {
 		answer = Arrays.toString(answerArray);
 		if(answer.equals("[+, +, +, +]")) {
 			attempts++;
-			System.out.println("\nGefeliciteerd!");
+			System.out.println(ANSI_CYAN + "\nGefeliciteerd!");
 			System.out.println("Je hebt het geraden in " + attempts + (attempts <= 1 ? " poging." : " pogingen."));
 			gameLoop = false;
 		} else {
-			System.out.println("\nHelaas.");
+			System.out.println(ANSI_RED + "\nHelaas.");
 			attempts++; //verhoogd de aantal pogingen counter.
 			if (attempts == 12) {
 				System.out.println("Je hebt het niet kunnen raden binnen 12 keer.");
@@ -59,7 +60,7 @@ public class Game {
 	
 	private void printCode() {
 		//Print de code uit.
-		System.out.println("De code is: " + Arrays.toString(code));
+		System.out.println(ANSI_BLUE + "De code is: " + Arrays.toString(code));
 	}
 	
 	private String getCode() {
