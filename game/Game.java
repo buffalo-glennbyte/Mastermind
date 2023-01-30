@@ -16,7 +16,7 @@ public class Game implements ColorPicker {
 	public void start() {
 		generateCode();
 		printCode(); //print de gegenereerde code uit
-		System.out.println(ANSI_YELLOW + "\nDe code kan bestaan uit de volgende letters:");
+		System.out.println(ANSI_YELLOW + "\nDe code bestaat uit de volgende letters:");
 		System.out.println(Arrays.toString(colours) + ANSI_RESET);
 		while (gameLoop) {
 			System.out.println("Voer je antwoord in: " + ANSI_YELLOW + "(Q om te stoppen / G om een nieuw code te genereren.)" + ANSI_RESET);
@@ -27,6 +27,7 @@ public class Game implements ColorPicker {
 			case "g":
 				System.out.println(ANSI_YELLOW + "\nEr word een nieuwe code gegenereerd." + ANSI_RESET);
 				generateCode();
+				printCode();
 				break;
 			default:
 				checkCode(answer);
@@ -34,10 +35,15 @@ public class Game implements ColorPicker {
 		}
 	}
 	private void checkCode(String answer) { 
-		System.out.println(ANSI_CYAN + "\n'?', aanwezig maar niet juiste plek.\n'+', juiste plek." + ANSI_RESET);
+		String correctCode = Arrays.toString(code);
 		char[] answerArray = answer.toCharArray(); //maakt een nieuw char array van het antwoord
 		for (int X = 0; X <answerArray.length; X++) {
 			if (answerArray[X] == code[X]) answerArray[X] = '+'; //vervangt de char met een + als deze gelijk is aan de char op dezelfde positie in de code
+		}
+		for (int Y = 0; Y < answerArray.length; Y++) {
+			if (correctCode.contains(Character.toString(answerArray[Y]))) {
+				answerArray[Y] = '?';
+			}
 		}
 		System.out.println(Arrays.toString(answerArray));
 		answer = Arrays.toString(answerArray);
@@ -47,6 +53,7 @@ public class Game implements ColorPicker {
 			System.out.println("Je hebt het geraden in " + attempts + (attempts <= 1 ? " poging." : " pogingen." + ANSI_RESET));
 			gameLoop = false;
 		} else {
+			System.out.println(ANSI_CYAN + "\n'?', aanwezig maar niet juiste plek.\n'+', juiste plek." + ANSI_RESET);
 			System.out.println(ANSI_RED + "\nHelaas.");
 			attempts++; //verhoogd de aantal pogingen counter.
 			if (attempts == 12) {

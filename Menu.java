@@ -28,6 +28,7 @@ public class Menu implements ColorPicker {
 				printMenu(1);
 				break;
 			case 4:
+				System.out.println(ANSI_GREEN + "\nFijne dag nog!");
 				menuLoop = false;
 				break;
 				
@@ -43,7 +44,7 @@ public class Menu implements ColorPicker {
 		System.out.println();
 	}
 	
-	static void printMenu(int temp) {
+	static void printMenu(int unused) {
 		System.out.println(ANSI_GREEN + "\nWelkom terug bij het menu:" + ANSI_RESET);
 		printMenu();
 	}
