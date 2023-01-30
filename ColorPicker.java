@@ -7,10 +7,10 @@ public interface ColorPicker {
     String ANSI_RED    = "\u001B[31m";
     String ANSI_GREEN  = "\u001B[32m";
 
-//  String ANSI_RESET  = "\u001B[0m";
-//	String ANSI_BLACK  = "\u001B[30m";
-//	String ANSI_YELLOW = "\u001B[33m";
-//  String ANSI_WHITE  = "\u001B[37m";
+    String ANSI_RESET  = "\u001B[0m";
+	String ANSI_BLACK  = "\u001B[30m";
+	String ANSI_YELLOW = "\u001B[33m";
+	String ANSI_WHITE  = "\u001B[37m";
 
 // Met de vriendelijke groeten van RLM :)
 }

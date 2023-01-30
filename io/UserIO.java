@@ -1,39 +1,40 @@
 package mastermind.io;
 
 import mastermind.ColorPicker;
-
 import java.util.Scanner;
 
 public class UserIO implements ColorPicker {
 
-	public static String UserInput() {
+	public static String codeInput() {
 		boolean loop = true;
 		Scanner input = new Scanner(System.in);
 		String givenAnswer = "";
 		do {
 			try {
-				String answer = input.next();
+				String answer = input.next().toLowerCase();
 				givenAnswer = answer;
-				if (answer.toLowerCase().startsWith("q") | answer.toLowerCase().startsWith("g")) { //controleert of het antwoord begint met Q of G.
+				if (answer.startsWith("q") | answer.startsWith("g")) { //controleert of het antwoord begint met Q of G.
 					loop = false;
 					break;
 				}
 				if (answer.length() != 4) throw new Exception(); //gooit exceptions als antwoord niet 4 letters lang is.
 				loop = false;
 			} catch (Exception e) {
-				System.out.println(ANSI_RED + "Daar ging wat mis, heb je wel een 4-letterige code ingevoerd?");
+				System.out.println(ANSI_RED + "Daar ging wat mis, heb je wel een 4-letterige code ingevoerd?" + ANSI_RESET);
 			}
 		} while (loop);
 		return givenAnswer;
 	}
 	
-	String UserInput(String question) {
-		return question;
-		
-	}
-	
-	private static void quitGame() { //Quits the game.
-		System.out.println(ANSI_GREEN + "\nWas leuk om met je/jullie te spelen!");
-		System.exit(0);
+	public static int menuInput() {
+		Scanner input = new Scanner(System.in);
+		int answer = 0;
+		try {
+			int tempAnswer = input.nextInt();
+			answer = tempAnswer;
+		} catch (Exception e) {
+			System.out.println(ANSI_RED + "Daar ging wat mis, heb je wel een cijfer ingevuld?" + ANSI_RESET);
+		}
+		return answer;
 	}
 }

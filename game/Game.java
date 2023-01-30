@@ -16,16 +16,16 @@ public class Game implements ColorPicker {
 	public void start() {
 		generateCode();
 		printCode(); //print de gegenereerde code uit
-		System.out.println("De code kan bestaan uit de volgende letters:");
-		System.out.println(Arrays.toString(colours));
+		System.out.println(ANSI_YELLOW + "\nDe code kan bestaan uit de volgende letters:");
+		System.out.println(Arrays.toString(colours) + ANSI_RESET);
 		while (gameLoop) {
-			System.out.println(ANSI_PURPLE + "Voer je antwoord in: (Q om te stoppen / G om een nieuw code te genereren.)");
-			String answer = UserIO.UserInput().toLowerCase();
+			System.out.println("Voer je antwoord in: " + ANSI_YELLOW + "(Q om te stoppen / G om een nieuw code te genereren.)" + ANSI_RESET);
+			String answer = UserIO.codeInput();
 			switch(answer) {
 			case "q":
 				quitGame();
 			case "g":
-				System.out.println("\nEr word een nieuwe code gegenereerd:");
+				System.out.println(ANSI_YELLOW + "\nEr word een nieuwe code gegenereerd." + ANSI_RESET);
 				generateCode();
 				break;
 			default:
@@ -34,7 +34,7 @@ public class Game implements ColorPicker {
 		}
 	}
 	private void checkCode(String answer) { 
-		System.out.println("\n'?' betekend wel aanwezig maar niet juiste plek.\n'+' betekend juiste plek.");
+		System.out.println(ANSI_CYAN + "\n'?', aanwezig maar niet juiste plek.\n'+', juiste plek." + ANSI_RESET);
 		char[] answerArray = answer.toCharArray(); //maakt een nieuw char array van het antwoord
 		for (int X = 0; X <answerArray.length; X++) {
 			if (answerArray[X] == code[X]) answerArray[X] = '+'; //vervangt de char met een + als deze gelijk is aan de char op dezelfde positie in de code
@@ -43,24 +43,24 @@ public class Game implements ColorPicker {
 		answer = Arrays.toString(answerArray);
 		if(answer.equals("[+, +, +, +]")) {
 			attempts++;
-			System.out.println(ANSI_CYAN + "\nGefeliciteerd!");
-			System.out.println("Je hebt het geraden in " + attempts + (attempts <= 1 ? " poging." : " pogingen."));
+			System.out.println(ANSI_GREEN + "\nGefeliciteerd!");
+			System.out.println("Je hebt het geraden in " + attempts + (attempts <= 1 ? " poging." : " pogingen." + ANSI_RESET));
 			gameLoop = false;
 		} else {
 			System.out.println(ANSI_RED + "\nHelaas.");
 			attempts++; //verhoogd de aantal pogingen counter.
 			if (attempts == 12) {
-				System.out.println("Je hebt het niet kunnen raden binnen 12 keer.");
+				System.out.println("Je hebt het niet kunnen raden binnen 12 keer." + ANSI_RESET);
 				quitGame();
 			} else {
-				System.out.println("Je hebt nog " + (12 - attempts) + " pogingen over.");
+				System.out.println("Je hebt nog " + (12 - attempts) + " pogingen over.\n" + ANSI_RESET);
 			}
 		}
 	}
 	
 	private void printCode() {
 		//Print de code uit.
-		System.out.println(ANSI_BLUE + "De code is: " + Arrays.toString(code));
+		System.out.println(ANSI_BLACK + "De code is: " + Arrays.toString(code) + ANSI_RESET);
 	}
 	
 	private String getCode() {
@@ -84,7 +84,7 @@ public class Game implements ColorPicker {
 	}
 	
 	private static void quitGame() { //Quits the game.
-		System.out.println("\nHet was leuk om met je/jullie te spelen!");
+		System.out.println(ANSI_GREEN + "\nWas leuk om met je/jullie te spelen!");
 		System.exit(0);
 	}
 }
