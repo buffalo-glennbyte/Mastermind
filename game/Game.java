@@ -5,12 +5,12 @@ import mastermind.io.UserIO;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Random;
 
 public class Game {
 	final char[] colours = {'a','b','c','d','e','f'};
 	private boolean gameLoop = true;
 	private char[] code = {'d','a','e','c'};
+	private int attempts = 0;
 	
 	public void start() {
 		generateCode();
@@ -35,10 +35,19 @@ public class Game {
 	private void checkCode(String answer) { 
 		//Controleert voor nu of de eerste character van het gegeven antwoord overeenkomt met de eerste character van de code.
 		if(answer.charAt(0) == code[0]) {
+			attempts++;
 			System.out.println("\nGoed gedaan.");
+			System.out.println("Je hebt het geraden in " + attempts + (attempts <= 1 ? " poging." : " pogingen."));
 			gameLoop = false;
 		} else {
 			System.out.println("\nHelaas.");
+			attempts++; //verhoogd de aantal pogingen counter.
+			if (attempts == 12) {
+				System.out.println("Je hebt het niet kunnen raden binnen 12 keer.");
+				quitGame();
+			} else {
+				System.out.println("Je hebt nog " + (12 - attempts) + " pogingen over.");
+			}
 		}
 	}
 	
@@ -68,7 +77,7 @@ public class Game {
 	}
 	
 	private static void quitGame() { //Quits the game.
-		System.out.println("\nWas leuk om met je/jullie te spelen!");
+		System.out.println("\nHet was leuk om met je/jullie te spelen!");
 		System.exit(0);
 	}
 }
