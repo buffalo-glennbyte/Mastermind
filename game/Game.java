@@ -33,10 +33,16 @@ public class Game {
 		}
 	}
 	private void checkCode(String answer) { 
-		//Controleert voor nu of de eerste character van het gegeven antwoord overeenkomt met de eerste character van de code.
-		if(answer.charAt(0) == code[0]) {
+		System.out.println("\n'?' betekend wel aanwezig maar niet juiste plek.\n'+' betekend juiste plek.");
+		char[] answerArray = answer.toCharArray(); //maakt een nieuw char array van het antwoord
+		for (int X = 0; X <answerArray.length; X++) {
+			if (answerArray[X] == code[X]) answerArray[X] = '+'; //vervangt de char met een + als deze gelijk is aan de char op dezelfde positie in de code
+		}
+		System.out.println(Arrays.toString(answerArray));
+		answer = Arrays.toString(answerArray);
+		if(answer.equals("[+, +, +, +]")) {
 			attempts++;
-			System.out.println("\nGoed gedaan.");
+			System.out.println("\nGefeliciteerd!");
 			System.out.println("Je hebt het geraden in " + attempts + (attempts <= 1 ? " poging." : " pogingen."));
 			gameLoop = false;
 		} else {
