@@ -1,7 +1,7 @@
 package mastermind;
 
 import mastermind.game.Game;
-import mastermind.io.UserIO;
+import mastermind.io.*;
 
 public class Menu implements ColorPicker {
 
@@ -45,7 +45,7 @@ public class Menu implements ColorPicker {
 	}
 	
 	static void printMenu(int unused) {
-		System.out.println(ANSI_GREEN + "\nWelkom terug bij het menu:" + ANSI_RESET);
+		System.out.println(ANSI_YELLOW + "\nWelkom terug bij het menu:" + ANSI_RESET);
 		printMenu();
 	}
 	

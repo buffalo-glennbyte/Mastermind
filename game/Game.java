@@ -10,7 +10,7 @@ import java.util.Collections;
 public class Game implements ColorPicker {
 	final char[] colours = {'a','b','c','d','e','f'};
 	private boolean gameLoop = true;
-	private char[] code = {'d','a','e','c'};
+	private char[] code;
 	private int attempts = 0;
 	
 	public void start() {
@@ -35,29 +35,37 @@ public class Game implements ColorPicker {
 		}
 	}
 	private void checkCode(String answer) { 
-		String correctCode = Arrays.toString(code);
 		char[] answerArray = answer.toCharArray(); //maakt een nieuw char array van het antwoord
+		System.out.println("\nJe hebt het volgende ingevoerd:\n" + (Arrays.toString(answerArray)));
+		char[] tempCode = code.clone(); //maakt clone van code array.
 		for (int X = 0; X <answerArray.length; X++) {
 			if (answerArray[X] == code[X]) answerArray[X] = '+'; //vervangt de char met een + als deze gelijk is aan de char op dezelfde positie in de code
 		}
+		for (int Z = 0; Z < answerArray.length; Z++) { //Zet de + in de tempCode array
+			if (answerArray[Z] == '+') tempCode[Z] = answerArray[Z];
+		}
+		answer = Arrays.toString(tempCode);
 		for (int Y = 0; Y < answerArray.length; Y++) {
-			if (correctCode.contains(Character.toString(answerArray[Y]))) {
+			if (answerArray[Y] == '+') continue;
+			if (answer.contains(Character.toString(answerArray[Y]))) {
 				answerArray[Y] = '?';
 			}
 		}
-		System.out.println(Arrays.toString(answerArray));
 		answer = Arrays.toString(answerArray);
 		if(answer.equals("[+, +, +, +]")) {
 			attempts++;
 			System.out.println(ANSI_GREEN + "\nGefeliciteerd!");
 			System.out.println("Je hebt het geraden in " + attempts + (attempts <= 1 ? " poging." : " pogingen." + ANSI_RESET));
+			UserIO.enterPrompt();
 			gameLoop = false;
 		} else {
-			System.out.println(ANSI_CYAN + "\n'?', aanwezig maar niet juiste plek.\n'+', juiste plek." + ANSI_RESET);
+			System.out.println(answer);
+			System.out.println(ANSI_CYAN + "\n'?', aanwezig maar niet op de juiste plek.\n'+', op de juiste plek." + ANSI_RESET);
 			System.out.println(ANSI_RED + "\nHelaas.");
 			attempts++; //verhoogd de aantal pogingen counter.
 			if (attempts == 12) {
 				System.out.println("Je hebt het niet kunnen raden binnen 12 keer." + ANSI_RESET);
+				UserIO.enterPrompt();
 				quitGame();
 			} else {
 				System.out.println("Je hebt nog " + (12 - attempts) + " pogingen over.\n" + ANSI_RESET);

@@ -37,4 +37,10 @@ public class UserIO implements ColorPicker {
 		}
 		return answer;
 	}
+	
+	public static void enterPrompt() { //Maakt een nieuwe scanner aan en vraagt om input waar niets mee gebeurd.
+		Scanner enter = new Scanner(System.in);
+		System.out.println(ANSI_CYAN + "\nDruk op enter om door te gaan." + ANSI_RESET);
+		enter.nextLine();
+	}
 }
