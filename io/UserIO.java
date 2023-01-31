@@ -8,7 +8,7 @@ public class UserIO implements ColorPicker {
 	public static String codeInput() {
 		boolean loop = true;
 		Scanner input = new Scanner(System.in);
-		String givenAnswer = "";
+		String givenAnswer = null;
 		do {
 			try {
 				String answer = input.next().toLowerCase();

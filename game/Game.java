@@ -6,35 +6,59 @@ import mastermind.io.UserIO;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Scanner;
 
 public class Game implements ColorPicker {
 	final char[] colours = {'a','b','c','d','e','f'};
 	private boolean gameLoop = true;
-	private char[] code;
-	private int attempts = 0;
+	private char[] code = new char[4];
+	ArrayList<Player> players = new ArrayList<Player>();
+	private int everyoneGuessedRight = 0;
 	
 	public void start() {
+		getAmountPlayers();
 		generateCode();
 		printCode(); //print de gegenereerde code uit
-		System.out.println(ANSI_YELLOW + "\nDe code bestaat uit de volgende letters:");
+		System.out.println(ANSI_YELLOW + "\nDe code is gegenereerd van de volgende letters:");
 		System.out.println(Arrays.toString(colours) + ANSI_RESET);
 		while (gameLoop) {
-			System.out.println("Voer je antwoord in: " + ANSI_YELLOW + "(Q om te stoppen / G om een nieuw code te genereren.)" + ANSI_RESET);
-			String answer = UserIO.codeInput();
-			switch(answer) {
-			case "q":
-				quitGame();
-			case "g":
-				System.out.println(ANSI_YELLOW + "\nEr word een nieuwe code gegenereerd." + ANSI_RESET);
-				generateCode();
-				printCode();
-				break;
-			default:
-				checkCode(answer);
+			if (everyoneGuessedRight == players.size()) {
+				gameLoop = false;
+				continue;
+			}
+			for (Player p : players) {
+				if(p.hasGuessedCode()) continue;
+				System.out.println("Het is de beurt van " + p.getName());
+				System.out.println("Voer je antwoord in: " + ANSI_YELLOW + "(Q om te stoppen / G om een nieuw code te genereren.)" + ANSI_RESET);
+				String answer = UserIO.codeInput();
+				switch(answer) {
+				case "q":
+					quitGame();
+				case "g":
+					System.out.println(ANSI_YELLOW + "\nEr word een nieuwe code gegenereerd." + ANSI_RESET);
+					generateCode();
+					printCode();
+					break;
+				default:
+					checkCode(p, answer);
+				}
 			}
 		}
 	}
-	private void checkCode(String answer) { 
+	private void getAmountPlayers() {
+		Scanner input = new Scanner(System.in);
+		System.out.println("\nHoeveel spelers gaan er mee doen?");
+		int amount = input.nextInt();
+		for (int a = 0; a < amount; a++) {
+			System.out.println("\nSpeler " + (a + 1));
+			players.add(new Player());
+		}
+		System.out.println("\nDit zijn alle spelers:");
+		for (Player p : players) System.out.println(p.getName());
+		UserIO.enterPrompt();
+	}
+	
+	private void checkCode(Player player, String answer) { 
 		char[] answerArray = answer.toCharArray(); //maakt een nieuw char array van het antwoord
 		System.out.println("\nJe hebt het volgende ingevoerd:\n" + (Arrays.toString(answerArray)));
 		char[] tempCode = code.clone(); //maakt clone van code array.
@@ -52,23 +76,28 @@ public class Game implements ColorPicker {
 			}
 		}
 		answer = Arrays.toString(answerArray);
+		isCodeCorrect(player, answer);
+	}
+	
+	private void isCodeCorrect(Player player, String answer) {
 		if(answer.equals("[+, +, +, +]")) {
-			attempts++;
-			System.out.println(ANSI_GREEN + "\nGefeliciteerd!");
-			System.out.println("Je hebt het geraden in " + attempts + (attempts <= 1 ? " poging." : " pogingen." + ANSI_RESET));
+			player.incrementAttempts(); //Verhoogd aantal pogingen van speler
+			System.out.println(ANSI_GREEN + "\nGefeliciteerd " + player.getName() + "!");
+			System.out.println("Je hebt het geraden in " + player.getAttempts() + (player.getAttempts() <= 1 ? " poging." : " pogingen." + ANSI_RESET));
 			UserIO.enterPrompt();
-			gameLoop = false;
+			player.didGuessCode();
+			everyoneGuessedRight++;
 		} else {
 			System.out.println(answer);
 			System.out.println(ANSI_CYAN + "\n'?', aanwezig maar niet op de juiste plek.\n'+', op de juiste plek." + ANSI_RESET);
-			System.out.println(ANSI_RED + "\nHelaas.");
-			attempts++; //verhoogd de aantal pogingen counter.
-			if (attempts == 12) {
+			System.out.println(ANSI_RED + "\nHelaas " + player.getName() + ".");
+			player.incrementAttempts(); //Verhoogd de aantal pogingen van speler
+			if (player.getAttempts() == 12) {
 				System.out.println("Je hebt het niet kunnen raden binnen 12 keer." + ANSI_RESET);
 				UserIO.enterPrompt();
 				quitGame();
 			} else {
-				System.out.println("Je hebt nog " + (12 - attempts) + " pogingen over.\n" + ANSI_RESET);
+				System.out.println("Je hebt nog " + (12 - player.getAttempts()) + " pogingen over.\n" + ANSI_RESET);
 			}
 		}
 	}

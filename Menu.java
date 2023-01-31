@@ -21,10 +21,12 @@ public class Menu implements ColorPicker {
 				break;
 			case 2:
 				printLastGame();
+				UserIO.enterPrompt();
 				printMenu(1);
 				break;
 			case 3:
 				printExplanation();
+				UserIO.enterPrompt();
 				printMenu(1);
 				break;
 			case 4:
