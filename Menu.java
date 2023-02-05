@@ -9,7 +9,7 @@ public class Menu implements ColorPicker {
 	final static String[] options = {"1. Start een nieuw spel","2. Laat uitslag van vorige spel zien","3. Geef uitleg over spel","4. Stop programma"};
 	
 	public static void main(String[] args) {
-		System.out.println(ANSI_GREEN + "Welkom bij Mastermind!\n" + ANSI_RESET);
+		printTextToColor(ANSI_GREEN, "Welkom bij Mastermind!\n");
 		printMenu();
 		do {
 			int answer = UserIO.menuInput();
@@ -30,24 +30,24 @@ public class Menu implements ColorPicker {
 				printMenu(1);
 				break;
 			case 4:
-				System.out.println(ANSI_GREEN + "\nFijne dag nog!");
+				printTextToColor(ANSI_GREEN, "\nFijne dag nog!");
 				menuLoop = false;
 				break;
 				
 			default:
-				System.out.println(ANSI_RED + "Ongeldige keuze, probeer opnieuw." + ANSI_RESET);
+				printTextToColor(ANSI_RED, "Ongeldige keuze, probeer opnieuw.");
 			}
 		} while (menuLoop);
 
 	}
 	
 	static void printMenu() {
-		for (String x : options) System.out.println(ANSI_RESET + x);
+		for (String x : options) printTextToColor(ANSI_RESET, x);
 		System.out.println();
 	}
 	
 	static void printMenu(int unused) {
-		System.out.println(ANSI_YELLOW + "\nWelkom terug bij het menu:" + ANSI_RESET);
+		printTextToColor(ANSI_YELLOW, "\nWelkom terug bij het menu:");
 		printMenu();
 	}
 	
@@ -57,5 +57,12 @@ public class Menu implements ColorPicker {
 	
 	static void printLastGame() {
 		System.out.println("Placeholder.");
+	}
+	
+	public static void printTextToColor(String color, String text) {
+		System.out.println(color + text + ANSI_RESET);
+		// print alle text in kLeUrTjEssss
+		// reset? niet meer nodig!
+		// Groeten van Timo ;)
 	}
 }
