@@ -1,6 +1,8 @@
 package mastermind.io;
 
 import mastermind.ColorPicker;
+import mastermind.Menu;
+
 import java.util.Scanner;
 
 public class UserIO implements ColorPicker {
@@ -20,7 +22,7 @@ public class UserIO implements ColorPicker {
 				if (answer.length() != 4) throw new Exception(); //gooit exceptions als antwoord niet 4 letters lang is.
 				loop = false;
 			} catch (Exception e) {
-				System.out.println(ANSI_RED + "Daar ging wat mis, heb je wel een 4-letterige code ingevoerd?" + ANSI_RESET);
+				Menu.printTextToColor(ANSI_RED, "Daar ging wat mis, heb je wel een 4-letterige code ingevoerd?");
 			}
 		} while (loop);
 		return givenAnswer;
@@ -33,14 +35,14 @@ public class UserIO implements ColorPicker {
 			int tempAnswer = input.nextInt();
 			answer = tempAnswer;
 		} catch (Exception e) {
-			System.out.println(ANSI_RED + "Daar ging wat mis, heb je wel een cijfer ingevuld?" + ANSI_RESET);
+			Menu.printTextToColor(ANSI_RED, "Daar ging wat mis, heb je wel een cijfer ingevuld?");
 		}
 		return answer;
 	}
 	
 	public static void enterPrompt() { //Maakt een nieuwe scanner aan en vraagt om input waar niets mee gebeurd.
 		Scanner enter = new Scanner(System.in);
-		System.out.println(ANSI_CYAN + "\nDruk op enter om door te gaan." + ANSI_RESET);
+		Menu.printTextToColor(ANSI_CYAN, "\nDruk op enter om door te gaan.");
 		enter.nextLine();
 	}
 }
