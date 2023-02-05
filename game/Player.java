@@ -1,5 +1,6 @@
 package mastermind.game;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 //import java.util.ArrayList;
@@ -9,9 +10,18 @@ public class Player {
 	private int attempts;
 	private boolean guessedCode = false;
 //	private ArrayList<char[]> inputtedCodes = new ArrayList<char[]>();
+	private char[] code = new char[4];
 	
 	Player(){
 		setName();
+	}
+	
+	public char[] getCode() {
+		return code;
+	}
+
+	public void setCode(char[] code) {
+		this.code = code;
 	}
 	
 	public void setName() {

@@ -17,8 +17,7 @@ public class Game implements ColorPicker {
 	
 	public void start() {
 		getAmountPlayers();
-		generateCode();
-		printCode(); //print de gegenereerde code uit
+		for (Player p : players) p.setCode(generateCode()); //geeft elke speler zijn eigen unieke code
 		System.out.println(ANSI_YELLOW + "\nDe code is gegenereerd van de volgende letters:");
 		System.out.println(Arrays.toString(colours) + ANSI_RESET);
 		while (gameLoop) {
@@ -35,16 +34,23 @@ public class Game implements ColorPicker {
 				case "q":
 					quitGame();
 				case "g":
-					System.out.println(ANSI_YELLOW + "\nEr word een nieuwe code gegenereerd." + ANSI_RESET);
-					generateCode();
-					printCode();
+					System.out.println(ANSI_YELLOW + "\nEr word een nieuwe code gegenereerd voor je." + ANSI_RESET);
+					p.setCode(generateCode());
 					break;
 				default:
 					checkCode(p, answer);
 				}
 			}
 		}
+		if (players.size() > 1) printWinner(); //Print de winnaar uit als er meer dan 1 speler is.
 	}
+	
+	private void printWinner() {
+		//Make new list, sort on score and print list in ascending order.
+		ArrayList scores = new ArrayList();
+		
+	}
+	
 	private void getAmountPlayers() {
 		Scanner input = new Scanner(System.in);
 		System.out.println("\nHoeveel spelers gaan er mee doen?");
@@ -53,17 +59,19 @@ public class Game implements ColorPicker {
 			System.out.println("\nSpeler " + (a + 1));
 			players.add(new Player());
 		}
-		System.out.println("\nDit zijn alle spelers:");
-		for (Player p : players) System.out.println(p.getName());
+		if (players.size() > 1) {
+			System.out.println("\nDit zijn alle spelers:");
+			for (Player p : players) System.out.println(p.getName());
+		}
 		UserIO.enterPrompt();
 	}
 	
 	private void checkCode(Player player, String answer) { 
 		char[] answerArray = answer.toCharArray(); //maakt een nieuw char array van het antwoord
 		System.out.println("\nJe hebt het volgende ingevoerd:\n" + (Arrays.toString(answerArray)));
-		char[] tempCode = code.clone(); //maakt clone van code array.
+		char[] tempCode = player.getCode().clone(); //maakt clone van code array.
 		for (int X = 0; X <answerArray.length; X++) {
-			if (answerArray[X] == code[X]) answerArray[X] = '+'; //vervangt de char met een + als deze gelijk is aan de char op dezelfde positie in de code
+			if (answerArray[X] == player.getCode()[X]) answerArray[X] = '+'; //vervangt de char met een + als deze gelijk is aan de char op dezelfde positie in de code
 		}
 		for (int Z = 0; Z < answerArray.length; Z++) { //Zet de + in de tempCode array
 			if (answerArray[Z] == '+') tempCode[Z] = answerArray[Z];
@@ -107,13 +115,7 @@ public class Game implements ColorPicker {
 		System.out.println(ANSI_BLACK + "De code is: " + Arrays.toString(code) + ANSI_RESET);
 	}
 	
-	private String getCode() {
-		//Haalt de code op en geeft deze terug als String
-		String codeString = Arrays.toString(code);
-		return codeString;
-	}
-	
-	private void generateCode() {
+	private char[] generateCode() {
 		ArrayList<Character> options = new ArrayList<Character>();
 		for (char x : colours) options.add(x);
 		ArrayList<Character> newCode = new ArrayList<Character>();
@@ -122,9 +124,11 @@ public class Game implements ColorPicker {
 			Collections.shuffle(options);
 			newCode.add(options.get(0));
 		}
+		char[] returnedCode = new char[4];
 		for (int x = 0; x < code.length; x++) {
-			code[x] = newCode.get(x);
+			returnedCode[x] = newCode.get(x);
 		}
+		return returnedCode;
 	}
 	
 	private static void quitGame() { //Quits the game.
