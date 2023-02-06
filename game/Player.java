@@ -1,11 +1,8 @@
 package mastermind.game;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Scanner;
-
-//import java.util.ArrayList;
 
 public class Player {
 	private String name;
@@ -22,16 +19,15 @@ public class Player {
 		return inputtedCodes;
 	}
 
-	public void addInputtedCode(String IC) {
-		char[] ICarray = IC.toCharArray();
-		inputtedCodes.add(ICarray);
+	public void addInputtedCode(char[] IC) {
+		inputtedCodes.add(IC);
 	}
 	
 	public char[] getCode() {
 		return code;
 	}
 
-	public void setCode(char[] code) {
+	protected void setCode(char[] code) {
 		this.code = code;
 	}
 	
@@ -64,35 +60,27 @@ public class Player {
 		 }
 	}
 	public String getName() {
-		return this.name;
+		return name;
 	}
 	
-	void incrementAttempts() {
-		this.attempts++;
+	protected void incrementAttempts() {
+		attempts++;
 	}
 	
-	int getAttempts() {
-		return this.attempts;
+	public int getAttempts() {
+		return attempts;
 	}
 	
-	void didGuessCode() {
-		this.guessedCode = true;
+	protected void didGuessCode() { //
+		guessedCode = true;
 	}
 	
-	boolean hasGuessedCode() {
-		return this.guessedCode;
+	public boolean hasGuessedCode() {
+		return guessedCode;
 	}
-	
-//	void addInputtedCode(char[] inputtedCode) {
-//		this.inputtedCodes.add(inputtedCode);
-//	}
-//	
-//	ArrayList getInputtedCodes() {
-//		return this.inputtedCodes;
-//	}
 }
 
-class SortAttempts implements Comparator<Player> { // Used for sorting in ascending order of ID  
+class SortAttempts implements Comparator<Player> { //Voor het sorteren van spelers op aantal pogingen 
 	public int compare(Player a, Player b)  {  
 		return a.getAttempts() - b.getAttempts();
 	    }  

@@ -1,0 +1,27 @@
+Bij Mastermind probeer je de code te raden binnen 12 pogingen.
+De code bestaat uit 4 letters en is opgemaakt van de een of meerdere van de volgende letters:
+a, b, c, d, e, f
+
+Voorbeeld codes:
+- a, c, a, f
+- b, e, f, f
+- a, d, e, c
+
+Wanneer je een 4 code hebt ingevoerd word deze door de computer gecontroleerd.
+Als de letter op de juiste plek staat word deze vervangen door een '+'.
+Bijvoorbeeld:
+
+- a, b, c, d (ingevoerd)
+- a, +, c, + (na controle)
+
+Als de letter aanwezig is maar nog niet op de juiste plek staat word deze vervangen door een '?'.
+Bijvoorbeeld:
+
+- a, b, c, d (ingevoerd)
+- ?, +, ?, + (na controle)
+
+In het bovenstaande voorbeeld weet je nu dat de correcte code 'c, b, a, d' is.
+Wanneer de juiste code is ingevoerd heb je gewonnen!
+
+Als je met meerdere spelers speelt krijgt iedere speler zijn eigen code om te kraken.
+Aan het einde van het spel heeft de speler met de minst aantal pogingen gewonnen!
