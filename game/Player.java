@@ -1,7 +1,6 @@
 package mastermind.game;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Scanner;
 
@@ -22,9 +21,8 @@ public class Player {
 		return inputtedCodes;
 	}
 
-	public void addInputtedCode(String IC) {
-		char[] ICarray = IC.toCharArray();
-		inputtedCodes.add(ICarray);
+	public void addInputtedCode(char[] IC) {
+		inputtedCodes.add(IC);
 	}
 	
 	public char[] getCode() {

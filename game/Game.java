@@ -29,6 +29,15 @@ public class Game implements ColorPicker {
 			for (Player p : players) {
 				if(p.hasGuessedCode() || p.getAttempts() == 12) continue; //controleert of speler zijn code al heeft geraden of alle pogingen al heeft gehad.
 				Menu.printTextToColor(ANSI_WHITE, "Het is de beurt van: " + p.getName() );
+				if(p.getInputtedCodes().size() != 0) {
+					Menu.printTextToColor(ANSI_BLUE, "Dit waren je vorige antwoorden:");
+					for (int x = 0; x < p.getInputtedCodes().size(); x += 2) {
+						System.out.print(Arrays.toString(p.getInputtedCodes().get(x)));
+						System.out.print(" - " + Arrays.toString(p.getInputtedCodes().get(x + 1)));
+						System.out.println();
+					}
+					System.out.println();
+				}
 				System.out.print("Voer je antwoord in: ");
 				Menu.printTextToColor(ANSI_YELLOW, "(Q om te stoppen / G om een nieuw code te genereren.)");
 				
@@ -44,7 +53,7 @@ public class Game implements ColorPicker {
 					printCode(p);
 					break;
 				default:
-					p.addInputtedCode(answer);
+					p.addInputtedCode(answer.toCharArray());
 					checkCode(p, answer);
 				}
 			}
@@ -86,7 +95,7 @@ public class Game implements ColorPicker {
 	private void checkCode(Player player, String answer) { 
 		char[] answerArray = answer.toCharArray(); //maakt een nieuw char array van het antwoord
 		System.out.println("\nJe hebt het volgende ingevoerd:\n" + (Arrays.toString(answerArray)));
-		char[] tempCode = player.getCode().clone(); //maakt clone van code array.
+		char[] tempCode = player.getCode().clone(); //maakt clone van correcte code array van de ingevoerde speler
 		for (int X = 0; X <answerArray.length; X++) {
 			if (answerArray[X] == player.getCode()[X]) answerArray[X] = '+'; //vervangt de char met een + als deze gelijk is aan de char op dezelfde positie in de code
 		}
@@ -100,12 +109,13 @@ public class Game implements ColorPicker {
 				answerArray[Y] = '?';
 			}
 		}
-		answer = Arrays.toString(answerArray);
-		isCodeCorrect(player, answer);
+		String checkedCode = Arrays.toString(answerArray);
+		player.addInputtedCode(answerArray);
+		isCodeCorrect(player, checkedCode);
 	}
 	
-	private void isCodeCorrect(Player player, String answer) {
-		if(answer.equals("[+, +, +, +]")) {
+	private void isCodeCorrect(Player player, String checkedCode) {
+		if(checkedCode.equals("[+, +, +, +]")) {
 			player.incrementAttempts(); //Verhoogd aantal pogingen van speler
 			Menu.printTextToColor(ANSI_GREEN, "\nGefeliciteerd " + player.getName() + "!");   
 			Menu.printTextToColor(ANSI_GREEN, "Je hebt het geraden in " + player.getAttempts() + (player.getAttempts() <= 1 ? " poging." : " pogingen."));   
@@ -113,7 +123,7 @@ public class Game implements ColorPicker {
 			player.didGuessCode();
 			playersUsedAllAttempts++;
 		} else {
-			System.out.println(answer);
+			System.out.println(checkedCode);
 			Menu.printTextToColor(ANSI_CYAN, "\n'?', aanwezig maar niet op de juiste plek.\n'+', op de juiste plek.");
 			Menu.printTextToColor(ANSI_RED, "\nHelaas " + player.getName() + ".");
 			player.incrementAttempts(); //Verhoogd de aantal pogingen van speler
@@ -153,5 +163,11 @@ public class Game implements ColorPicker {
 	private static void quitGame() { //Quits the game.
 		Menu.printTextToColor(ANSI_GREEN, "\nWas leuk om met je/jullie te spelen!");
 		System.exit(0);
+	}
+	
+	private void saveGame() {
+		if(players.size() == 1) {
+			
+		}
 	}
 }

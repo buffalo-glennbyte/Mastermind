@@ -1,5 +1,7 @@
 package mastermind;
 
+import java.io.IOException;
+
 import mastermind.game.Game;
 import mastermind.io.*;
 
@@ -52,11 +54,20 @@ public class Menu implements ColorPicker {
 	}
 	
 	static void printExplanation() {
-		System.out.println("Placeholder.");
+		printTextToColor(ANSI_YELLOW, "\nUitleg:");
+		try {
+			FileIO.pExplanation();
+		} catch (IOException e) {
+			Menu.printTextToColor(ANSI_RED, "Kan het bestand niet vinden.");
+		}
 	}
 	
 	static void printLastGame() {
-		System.out.println("Placeholder.");
+		try {
+			FileIO.pLastGame();
+		} catch (IOException e) {
+			Menu.printTextToColor(ANSI_RED, "Kan het bestand niet vinden of er is nog geen spel gespeeld.");
+		}
 	}
 	
 	public static void printTextToColor(String color, String text) {
