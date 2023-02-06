@@ -64,5 +64,6 @@ public class Menu implements ColorPicker {
 		// print alle text in kLeUrTjEssss
 		// reset? niet meer nodig!
 		// Groeten van Timo ;)
+		// hier is maikel zijn geweldige bijdrage! Durf er niet teveel aan te zitten
 	}
 }
