@@ -2,8 +2,10 @@ package mastermind.game;
 
 import mastermind.ColorPicker;
 import mastermind.Menu;
+import mastermind.io.FileIO;
 import mastermind.io.UserIO;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -20,7 +22,7 @@ public class Game implements ColorPicker {
 		getAmountPlayers();
 		for (Player p : players) p.setCode(generateCode()); //geeft elke speler zijn eigen unieke code
 		Menu.printTextToColor(ANSI_YELLOW, "\nDe code is gegenereerd van de volgende letters:");
-		Menu.printTextToColor(ANSI_YELLOW, Arrays.toString(colours));
+		Menu.printTextToColor(ANSI_YELLOW, Arrays.toString(colours) + "\n");
 		while (gameLoop) {
 			if (playersUsedAllAttempts == players.size()) {
 				gameLoop = false;
@@ -28,9 +30,9 @@ public class Game implements ColorPicker {
 			}
 			for (Player p : players) {
 				if(p.hasGuessedCode() || p.getAttempts() == 12) continue; //controleert of speler zijn code al heeft geraden of alle pogingen al heeft gehad.
-				Menu.printTextToColor(ANSI_WHITE, "Het is de beurt van: " + p.getName() );
+				Menu.printTextToColor(ANSI_CYAN, "Het is de beurt van: " + p.getName() );
 				if(p.getInputtedCodes().size() != 0) {
-					Menu.printTextToColor(ANSI_BLUE, "Dit waren je vorige antwoorden:");
+					Menu.printTextToColor(ANSI_YELLOW, "Dit waren je vorige antwoorden:");
 					for (int x = 0; x < p.getInputtedCodes().size(); x += 2) {
 						System.out.print(Arrays.toString(p.getInputtedCodes().get(x)));
 						System.out.print(" - " + Arrays.toString(p.getInputtedCodes().get(x + 1)));
@@ -38,8 +40,8 @@ public class Game implements ColorPicker {
 					}
 					System.out.println();
 				}
-				System.out.print("Voer je antwoord in: ");
-				Menu.printTextToColor(ANSI_YELLOW, "(Q om te stoppen / G om een nieuw code te genereren.)");
+				Menu.printTextToColor(ANSI_CYAN, "Voer je antwoord in: ");;
+				Menu.printTextToColor(ANSI_WHITE, "(Q om te stoppen / G om een nieuw code te genereren.)");
 				
 				String answer = UserIO.codeInput();
 				switch(answer) {
@@ -59,6 +61,7 @@ public class Game implements ColorPicker {
 			}
 		}
 		if (players.size() > 1) printWinner(); //Print de winnaar uit als er meer dan 1 speler is.
+		saveGame();
 	}
 	
 	private void printWinner() {
@@ -66,7 +69,7 @@ public class Game implements ColorPicker {
 		for (int i = 0; i < players.size(); i++) {
 			if (players.get(i).getAttempts() < 12) {
 				if (i == 0) {
-					Menu.printTextToColor(ANSI_GREEN, players.get(i).getName() + " heeft gewonnen met " + players.get(i).getAttempts() + " pogingen.");
+					Menu.printTextToColor(ANSI_GREEN, players.get(i).getName() + " heeft gewonnen met " + players.get(i).getAttempts() + (players.get(i).getAttempts() == 1 ? " poging." : " pogingen."));
 				} else {
 					Menu.printTextToColor(ANSI_CYAN, players.get(i).getName() + " heeft het geraden met " + players.get(i).getAttempts() + " pogingen.");
 				}
@@ -79,10 +82,10 @@ public class Game implements ColorPicker {
 	
 	private void getAmountPlayers() {
 		Scanner input = new Scanner(System.in);
-		System.out.println("\nHoeveel spelers gaan er mee doen?");
+		Menu.printTextToColor(ANSI_CYAN, "\nHoeveel spelers gaan er mee doen?");
 		int amount = input.nextInt();
 		for (int a = 0; a < amount; a++) {
-			Menu.printTextToColor(ANSI_BLUE, "\nSpeler " + (a + 1));
+			Menu.printTextToColor(ANSI_CYAN, "\nSpeler " + (a + 1));
 			players.add(new Player());
 		}
 		if (players.size() > 1) {
@@ -94,7 +97,8 @@ public class Game implements ColorPicker {
 	
 	private void checkCode(Player player, String answer) { 
 		char[] answerArray = answer.toCharArray(); //maakt een nieuw char array van het antwoord
-		System.out.println("\nJe hebt het volgende ingevoerd:\n" + (Arrays.toString(answerArray)));
+		Menu.printTextToColor(ANSI_YELLOW, "\nJe hebt het volgende ingevoerd:");
+		System.out.println(Arrays.toString(answerArray));
 		char[] tempCode = player.getCode().clone(); //maakt clone van correcte code array van de ingevoerde speler
 		for (int X = 0; X <answerArray.length; X++) {
 			if (answerArray[X] == player.getCode()[X]) answerArray[X] = '+'; //vervangt de char met een + als deze gelijk is aan de char op dezelfde positie in de code
@@ -118,7 +122,7 @@ public class Game implements ColorPicker {
 		if(checkedCode.equals("[+, +, +, +]")) {
 			player.incrementAttempts(); //Verhoogd aantal pogingen van speler
 			Menu.printTextToColor(ANSI_GREEN, "\nGefeliciteerd " + player.getName() + "!");   
-			Menu.printTextToColor(ANSI_GREEN, "Je hebt het geraden in " + player.getAttempts() + (player.getAttempts() <= 1 ? " poging." : " pogingen."));   
+			Menu.printTextToColor(ANSI_WHITE, "Je hebt het geraden in " + player.getAttempts() + (player.getAttempts() <= 1 ? " poging." : " pogingen."));   
 			UserIO.enterPrompt();
 			player.didGuessCode();
 			playersUsedAllAttempts++;
@@ -132,7 +136,7 @@ public class Game implements ColorPicker {
 				UserIO.enterPrompt();
 				playersUsedAllAttempts++;
 			} else {
-				Menu.printTextToColor(ANSI_RED, "Je hebt nog " + (12 - player.getAttempts()) + (player.getAttempts() == 11 ? " poging over." : " pogingen over."));
+				Menu.printTextToColor(ANSI_WHITE, "Je hebt nog " + (12 - player.getAttempts()) + (player.getAttempts() == 11 ? " poging over." : " pogingen over."));
 				UserIO.enterPrompt();
 			}
 		}
@@ -166,8 +170,11 @@ public class Game implements ColorPicker {
 	}
 	
 	private void saveGame() {
-		if(players.size() == 1) {
-			
+		Collections.sort(players, new SortAttempts());
+		try {
+			FileIO.saveGame(players);
+		} catch (IOException e) {
+			Menu.printTextToColor(ANSI_RED, "Er ging iets mis tijdens het wegschrijven van de scores.");
 		}
 	}
 }

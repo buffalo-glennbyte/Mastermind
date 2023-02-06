@@ -8,7 +8,7 @@ import mastermind.io.*;
 public class Menu implements ColorPicker {
 
 	private static boolean menuLoop = true;
-	final static String[] options = {"1. Start een nieuw spel","2. Laat uitslag van vorige spel zien","3. Geef uitleg over spel","4. Stop programma"};
+	final static String[] options = {"1. Start een nieuw spel","2. Print vorige uitslagen","3. Verwijder oude scores","4. Geef uitleg over spel","5. Stop programma"};
 	
 	public static void main(String[] args) {
 		printTextToColor(ANSI_GREEN, "Welkom bij Mastermind!\n");
@@ -27,11 +27,15 @@ public class Menu implements ColorPicker {
 				printMenu(1);
 				break;
 			case 3:
+				deleteScores();
+				printMenu(1);
+				break;
+			case 4:
 				printExplanation();
 				UserIO.enterPrompt();
 				printMenu(1);
 				break;
-			case 4:
+			case 5:
 				printTextToColor(ANSI_GREEN, "\nFijne dag nog!");
 				menuLoop = false;
 				break;
@@ -68,6 +72,10 @@ public class Menu implements ColorPicker {
 		} catch (IOException e) {
 			Menu.printTextToColor(ANSI_RED, "Kan het bestand niet vinden of er is nog geen spel gespeeld.");
 		}
+	}
+	
+	static void deleteScores() {
+		FileIO.deleteScores();
 	}
 	
 	public static void printTextToColor(String color, String text) {
