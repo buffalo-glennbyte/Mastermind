@@ -1,5 +1,8 @@
 package mastermind.game;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Scanner;
 
 //import java.util.ArrayList;
@@ -8,10 +11,28 @@ public class Player {
 	private String name;
 	private int attempts;
 	private boolean guessedCode = false;
-//	private ArrayList<char[]> inputtedCodes = new ArrayList<char[]>();
+	private ArrayList<char[]> inputtedCodes = new ArrayList<char[]>();
+	private char[] code = new char[4];
 	
 	Player(){
 		setName();
+	}
+	
+	public ArrayList<char[]> getInputtedCodes() {
+		return inputtedCodes;
+	}
+
+	public void addInputtedCode(String IC) {
+		char[] ICarray = IC.toCharArray();
+		inputtedCodes.add(ICarray);
+	}
+	
+	public char[] getCode() {
+		return code;
+	}
+
+	public void setCode(char[] code) {
+		this.code = code;
 	}
 	
 	public void setName() {
@@ -70,3 +91,9 @@ public class Player {
 //		return this.inputtedCodes;
 //	}
 }
+
+class SortAttempts implements Comparator<Player> { // Used for sorting in ascending order of ID  
+	public int compare(Player a, Player b)  {  
+		return a.getAttempts() - b.getAttempts();
+	    }  
+	}  

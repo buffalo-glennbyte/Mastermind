@@ -15,7 +15,7 @@ public class UserIO implements ColorPicker {
 			try {
 				String answer = input.next().toLowerCase();
 				givenAnswer = answer;
-				if (answer.startsWith("q") | answer.startsWith("g")) { //controleert of het antwoord begint met Q of G.
+				if (answer.startsWith("q") | answer.startsWith("g") | answer.startsWith("p")) { //controleert of het antwoord begint met Q of G.
 					loop = false;
 					break;
 				}
