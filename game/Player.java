@@ -2,6 +2,7 @@ package mastermind.game;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Scanner;
 
 //import java.util.ArrayList;
@@ -90,3 +91,9 @@ public class Player {
 //		return this.inputtedCodes;
 //	}
 }
+
+class SortAttempts implements Comparator<Player> { // Used for sorting in ascending order of ID  
+	public int compare(Player a, Player b)  {  
+		return a.getAttempts() - b.getAttempts();
+	    }  
+	}  
